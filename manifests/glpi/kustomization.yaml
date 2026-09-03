@@ -6,3 +6,4 @@ resources:
   - mariadb.yaml
   - glpi.yaml
   - ingress.yaml
+  - hpa.yaml
