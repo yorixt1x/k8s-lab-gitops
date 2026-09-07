@@ -49,8 +49,6 @@ spec:
                   customParams:
                     reasoningFormat: disabled
 
-          enabled: false
-
         mongodb:
           enabled: true
           persistence:
