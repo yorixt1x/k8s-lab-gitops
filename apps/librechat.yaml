@@ -18,6 +18,10 @@ spec:
         librechat:
           existingSecretName: librechat-credentials-env
 
+          configEnv:
+            HOST: "0.0.0.0"
+            PORT: "3080"
+
           imageVolume:
             enabled: false
 
