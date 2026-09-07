@@ -17,6 +17,8 @@ spec:
 
         librechat:
           existingSecretName: librechat-credentials-env
+          imageVolume:
+            enabled: false
 
           configYamlContent: |-
             version: 1.3.13
@@ -47,7 +49,6 @@ spec:
                   customParams:
                     reasoningFormat: disabled
 
-          imageVolume:
           enabled: false
 
         mongodb:
