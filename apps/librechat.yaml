@@ -13,10 +13,9 @@ spec:
 
     helm:
       parameters:
-        - name: imageVolume.enabled
+        - name: librechat.imageVolume.enabled
           value: "false"
-
-      values: |
+values: |
         replicaCount: 1
 
         librechat:
