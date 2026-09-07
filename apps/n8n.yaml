@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: n8n
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: ghcr.io/n8n-io/n8n-helm-chart
+    chart: n8n
+    targetRevision: 1.11.0
+    helm:
+      releaseName: n8n
+      valuesObject:
+        database:
+          type: sqlite
+          useExternal: false
+
+        queueMode:
+          enabled: false
+
+        redis:
+          enabled: false
+
+        persistence:
+          enabled: true
+          size: 10Gi
+          storageClassName: local-path
+
+        secretRefs:
+          existingSecret: n8n-secret
+          env:
+            N8N_ENCRYPTION_KEY: N8N_ENCRYPTION_KEY
+
+        extraEnv:
+          - name: N8N_SECURE_COOKIE
+            value: "false"
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: n8n
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
