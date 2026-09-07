@@ -1,0 +1,99 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: librechat
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: ghcr.io/danny-avila/librechat-chart
+    chart: librechat
+    targetRevision: 2.0.8
+
+    helm:
+      values: |
+        replicaCount: 1
+
+        librechat:
+          existingSecretName: librechat-credentials-env
+
+          configYamlContent: |-
+            version: 1.3.13
+            cache: true
+
+            endpoints:
+              custom:
+                - name: "Ocealia NPU"
+                  apiKey: "dummy"
+                  baseURL: "http://172.16.10.1:8000/v1"
+
+                  models:
+                    default:
+                      - "SmolLM3-3B"
+                    fetch: false
+
+                  modelDisplayLabel: "SmolLM3-3B NPU"
+
+                  titleConvo: false
+                  summarize: false
+
+                  addParams:
+                    max_tokens: 128
+                    temperature: 0.2
+                    chat_template_kwargs:
+                      enable_thinking: false
+
+                  customParams:
+                    reasoningFormat: disabled
+
+        imageVolume:
+          enabled: true
+          size: 10Gi
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: local-path
+
+        mongodb:
+          enabled: true
+          persistence:
+            enabled: true
+            storageClass: local-path
+            accessModes:
+              - ReadWriteOnce
+            size: 8Gi
+
+        meilisearch:
+          enabled: true
+          persistence:
+            enabled: true
+            storageClass: local-path
+
+        redis:
+          enabled: false
+
+        librechat-rag-api:
+          enabled: false
+
+        nodeSelector:
+          kubernetes.io/hostname: k8s-02
+
+        ingress:
+          enabled: true
+          className: nginx
+          hosts:
+            - host: librechat.local
+              paths:
+                - path: /
+                  pathType: Prefix
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: librechat
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
