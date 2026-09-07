@@ -47,12 +47,8 @@ spec:
                   customParams:
                     reasoningFormat: disabled
 
-        imageVolume:
-          enabled: true
-          size: 10Gi
-          accessModes:
-            - ReadWriteOnce
-          storageClassName: local-path
+          imageVolume:
+          enabled: false
 
         mongodb:
           enabled: true
