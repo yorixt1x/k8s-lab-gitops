@@ -12,6 +12,10 @@ spec:
     targetRevision: 2.0.8
 
     helm:
+      parameters:
+        - name: imageVolume.enabled
+          value: "false"
+
       values: |
         replicaCount: 1
 
@@ -45,9 +49,6 @@ spec:
 
                   customParams:
                     reasoningFormat: disabled
-
-        imageVolume:
-          enabled: false
 
         mongodb:
           enabled: true
