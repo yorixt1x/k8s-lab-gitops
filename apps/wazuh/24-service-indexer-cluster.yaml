@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: wazuh-indexer
+  name: wazuh-indexer
+  namespace: wazuh
+spec:
+  ports:
+  - name: indexer-nodes
+    port: 9300
+    protocol: TCP
+    targetPort: 9300
+  selector:
+    app: wazuh-indexer
+  type: ClusterIP
