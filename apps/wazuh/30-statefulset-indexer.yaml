@@ -156,6 +156,7 @@ spec:
                 values:
                 - k8s-01
                 - k8s-02
+                - k8s-03
   updateStrategy:
     rollingUpdate:
       partition: 0
