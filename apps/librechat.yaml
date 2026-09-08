@@ -15,6 +15,10 @@ spec:
       values: |
         replicaCount: 1
 
+        image:
+          repository: registry.librechat.ai/danny-avila/librechat
+          tag: v0.8.8-rc2
+
         librechat:
           existingSecretName: librechat-credentials-env
 
